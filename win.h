@@ -1,48 +1,40 @@
-#ifndef WIN_H
-#define WIN_H
-#include <QWidget>
+#ifndef win_h
+#define win_h
 #include <QtGui>
-#include <QLineEdit>
+#include <QWidget>
+#include <QFrame>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
+#include <QValidator>
 
-class Counter:public QLineEdit
+class Win: public QWidget // класс окна
 {
-    Q_OBJECT
-
+    Q_OBJECT // макрос Qt, обеспечивающий корректное создание сигналов и слотов
+protected:
+    QTextCodec *codec;
+    QFrame *frame; // рамка
+    QLabel *inputLabel; // метка ввода
+    QLineEdit *inputEdit; // строчный редактор ввода
+    QLabel *outputLabel; // метка вывода
+    QLineEdit *outputEdit; // строчный редактор вывода
+    QPushButton *nextButton; // кнопка Следующее
+    QPushButton *exitButton; // кнопка Выход
 public:
-    Counter(const QString & contents, QWidget *parent = 0):
-    QLineEdit(contents, parent){}
-
-signals:
-    void tick_signal();
-
+    Win (QWidget *parent = 0); // конструктор
 public slots:
-    void add_one()
+    void begin(); // метод начальной настройки интерфейса
+    void calc(); // метод реализации вычислений
+};
+
+class StrValidator: public QValidator // класс компонента проверки ввода
+{
+public:
+    StrValidator(QObject *parent): QValidator(parent){}
+    virtual State validate (QString &str,int &pos) const
     {
-        QString str = text();
-        int r = str.toInt();
-        if (r != 0 && r%5 == 0) emit tick_signal();
-        r++;
-        str.setNum(r);
-        setText(str);
+        return Acceptable; // метод всегда принимает вводимую строку
     }
 };
 
-class Win: public QWidget
-{
-    Q_OBJECT
-
-protected:
-    QTextCodec *codec;
-    QLabel *label1,*label2;
-    Counter *edit1,*edit2;
-    QPushButton *calcbutton;
-    QPushButton *exitbutton;
-
-public:
-    Win(QWidget *parent = 0);
-};
-
-#endif // WIN_H
-
+#endif
