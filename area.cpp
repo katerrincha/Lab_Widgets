@@ -1,4 +1,5 @@
 #include "area.h"
+#include <QWidget>
 
 Area::Area(QWidget *parent):QWidget(parent)
 {

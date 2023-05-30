@@ -1,6 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include <QtGui>
+#include <QWidget>
+#include <QPushButton>
 #include "area.h"
 
 class Window : public QWidget
